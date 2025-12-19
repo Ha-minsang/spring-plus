@@ -4,9 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.example.expert.client.WeatherClient;
 import org.example.expert.domain.common.dto.AuthUser;
 import org.example.expert.domain.common.exception.InvalidRequestException;
+import org.example.expert.domain.todo.condition.TodoSearchCond;
 import org.example.expert.domain.todo.dto.request.TodoSaveRequest;
 import org.example.expert.domain.todo.dto.response.TodoResponse;
 import org.example.expert.domain.todo.dto.response.TodoSaveResponse;
+import org.example.expert.domain.todo.dto.response.TodoSummaryDto;
 import org.example.expert.domain.todo.entity.Todo;
 import org.example.expert.domain.todo.repository.TodoRepository;
 import org.example.expert.domain.user.dto.response.UserResponse;
@@ -16,7 +18,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
 
@@ -54,7 +55,7 @@ public class TodoService {
     public Page<TodoResponse> getTodos(String weather, LocalDateTime startModifiedAt, LocalDateTime endModifiedAt, int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
 
-        Page<Todo> todos = todoRepository.searchTodos(weather, startModifiedAt, endModifiedAt, pageable);
+        Page<Todo> todos = todoRepository.getTodos(weather, startModifiedAt, endModifiedAt, pageable);
 
         return todos.map(todo -> new TodoResponse(
                 todo.getId(),
@@ -83,5 +84,10 @@ public class TodoService {
                 todo.getCreatedAt(),
                 todo.getModifiedAt()
         );
+    }
+
+    public Page<TodoSummaryDto> searchTodo(int page, int size, TodoSearchCond condition) {
+        Pageable pageable = PageRequest.of(page - 1, size);
+        return todoRepository.searchTodos(pageable, condition);
     }
 }

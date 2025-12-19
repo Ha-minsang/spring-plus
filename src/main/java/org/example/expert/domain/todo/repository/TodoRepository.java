@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 public interface TodoRepository extends JpaRepository<Todo, Long>, TodoRepositoryCustom {
 
@@ -22,7 +21,7 @@ public interface TodoRepository extends JpaRepository<Todo, Long>, TodoRepositor
           and (:startModifiedAt is null or t.modifiedAt >= :startModifiedAt)
           and (:endModifiedAt is null or t.modifiedAt <= :endModifiedAt)
         """)
-    Page<Todo> searchTodos(
+    Page<Todo> getTodos(
             @Param("weather") String weather,
             @Param("startModifiedAt") LocalDateTime startModifiedAt,
             @Param("endModifiedAt") LocalDateTime endModifiedAt,
