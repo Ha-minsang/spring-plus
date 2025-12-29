@@ -50,6 +50,11 @@ dependencies {
 
     // Security
     implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    // Aws
+    implementation platform("software.amazon.awssdk:bom:2.25.47")
+    implementation "software.amazon.awssdk:s3"
+    implementation 'com.amazonaws:aws-java-sdk-s3:1.12.119'
 }
 
 tasks.named('test') {

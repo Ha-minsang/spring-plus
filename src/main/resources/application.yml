@@ -1,3 +1,18 @@
-jwt:
-  secret:
-    key: asdadqwdqwdasdasdasddqwdwqdqwwqeqrqrqrqwedafabfbqdf
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://database-1.cz440w00k2g9.ap-northeast-2.rds.amazonaws.com:3306/nbcam
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+logging:
+  level:
+    org.springframework.security: debug
+
+aws:
+  s3:
+    bucket-name: nbcam-test
