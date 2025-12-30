@@ -12,6 +12,7 @@ public class AwsConfig {
     @Bean
     public AmazonS3 amazonS3() {
         return AmazonS3ClientBuilder.standard()
+                .withRegion("ap-northeast-2")
                 .withCredentials(new DefaultAWSCredentialsProviderChain())
                 .build();
     }

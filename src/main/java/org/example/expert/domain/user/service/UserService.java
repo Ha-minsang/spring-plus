@@ -7,6 +7,7 @@ import org.example.expert.domain.user.dto.request.UserChangePasswordRequest;
 import org.example.expert.domain.user.dto.response.UserResponse;
 import org.example.expert.domain.user.entity.User;
 import org.example.expert.domain.user.repository.UserRepository;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,6 +40,14 @@ public class UserService {
         }
 
         user.changePassword(passwordEncoder.encode(userChangePasswordRequest.getNewPassword()));
+    }
+
+    @Transactional(readOnly = true)
+    @Cacheable(value = "userCache", key = "#nickname")
+    public UserResponse getUserByNickname(String nickname) {
+        User user = userRepository.findByNickname(nickname)
+                .orElseThrow(() -> new InvalidRequestException("User not found"));
+        return new UserResponse(user.getId(), user.getEmail());
     }
 
     private static void validateNewPassword(UserChangePasswordRequest userChangePasswordRequest) {
